@@ -16,8 +16,17 @@
 <div class="control-group">
     <div class="controls">
         {{field.label}}
-        {{field(**kwargs)|safe}} 
+        {{field(**kwargs)|safe}}
     </div>
 </div>
+{%if field.errors%}
+<ul>
+    {%for error in field.errors%}
+    <li style="color: red;">
+        {{error}}
+    </li>
+    {%endfor%}
+</ul>
+{%endif%}
 
 {% endmacro %}

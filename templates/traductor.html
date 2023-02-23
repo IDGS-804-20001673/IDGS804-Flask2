@@ -1,0 +1,27 @@
+{% extends "layout.html"%}
+
+{% block content %}
+<div class="col-xs-6">
+    {%from "_macros.html" import render_Field %}
+    <form action="" method="post" novalidate>
+        {{form.csrf_token}}
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        {{render_Field(form.espanol)}}
+        {{render_Field(form.ingles)}}
+        <input type="submit" id="al" name="al" value="Guardar">
+    </form>
+
+    <form action="" method="post" novalidate>
+
+        <input type="radio" name="txttraduc" value="e" id="1">
+        <label for="1">Español</label>
+        <input type="radio" name="txttraduc" value="i" id="2">
+        <label for="2">Ingles</label>
+        <input type="text" name="txtPalabra" class="input-xlarge" placeholder="Palabra" value="">       
+        <input type="submit" id="al" name="al" value="Traducir">
+    </form>
+</div>
+
+
+
+{% endblock content %}
