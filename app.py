@@ -85,17 +85,33 @@ def calculos():
 def traductor():
     traduc=forms.TraductForm(request.form)
     if request.method == 'POST':
-        f=open('traducciones.txt','a')
-        f.write('\n'+traduc.español.data +' = '+traduc.español.data)
+        if traduc.espanol.data != None:
+            f=open('traducciones.txt','a')
+            f.write('\n' + traduc.espanol.data.lower())
+            f.write('\n' + traduc.ingles.data.lower())
 
     traducion=request.form.get("txttraduc")
     palabra=request.form.get("txtPalabra")
+    respuesta = " "
+    r=open('traducciones.txt','r')
+    if palabra != None:
+        words=r.readlines()
+        if traducion == 'i':
+           for n in range(0,len(words)):
+                if palabra in words[n]:
+                    respuesta=words[n+1]
+                    break
+                else:
+                    respuesta="No hay traduccion"
+        else:
+            for n in range(0,len(words)):
+                if palabra in words[n]:
+                    respuesta=words[n-1]
+                    break
+                else:
+                    respuesta="No hay traduccion"
 
-    if traducion == 'e':
-         f=open('traducciones.txt')
-        
-
-    return render_template("traductor.html",form=traduc)
+    return render_template("traductor.html",form=traduc,respuesta=respuesta,palabra=palabra)
 
 
 @app.route("/cookie", methods=['GET','POST'])

@@ -12,16 +12,18 @@
     </form>
 
     <form action="" method="post" novalidate>
-
+        {{form.csrf_token}}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         <input type="radio" name="txttraduc" value="e" id="1">
         <label for="1">Español</label>
         <input type="radio" name="txttraduc" value="i" id="2">
         <label for="2">Ingles</label>
-        <input type="text" name="txtPalabra" class="input-xlarge" placeholder="Palabra" value="">       
-        <input type="submit" id="al" name="al" value="Traducir">
+        <input type="text" name="txtPalabra" class="input-xlarge" placeholder="Palabra" value="">
+        <input type="submit" id="1" name="otro" value="Traducir">
     </form>
 </div>
-
-
+<div class="col-md-4">
+    <h1>La traduccion de: {{palabra}} es {{respuesta}}</h1><br>
+</div>
 
 {% endblock content %}

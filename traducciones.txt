@@ -1,3 +1,6 @@
-
-rojo = rojo
-rojo = rojo
+rojo
+red
+azul
+blue
+amarillo
+yellow
