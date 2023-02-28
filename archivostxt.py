@@ -8,13 +8,23 @@ f=open('alumnos.txt','r')
 
 alumnos=f.readlines()#imprime todas las lineas
 # alumnos=f.readlines()#aqui solo imprime el primero de la liena
-palabra="angel"
+palabra="emiliano"
 for n in range(0,len(alumnos)):
-    if palabra in alumnos[n]:
-        print("hola")
-        break
+    pal=alumnos[n]
+    if n == len(alumnos)-1:
+        if palabra == pal:
+            res="sista1"
+            break
+        else:
+            res="no esta1"
     else:
-        print(alumnos)
+        if palabra == pal[:-1]:
+            res="sista2"
+            break
+        else:
+            res="noesta2"
+
+print(res)
 # print(alumnos[0])
 # for item in alumnos:
 #     print(item,end='') el end de aqui es para indicarle que no haga salto de linea

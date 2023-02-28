@@ -4,3 +4,15 @@ azul
 blue
 amarillo
 yellow
+gato
+cat
+pelota
+ball
+hola
+hello
+equipo
+team
+niño
+boy
+puerta
+door

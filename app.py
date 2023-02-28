@@ -92,24 +92,42 @@ def traductor():
 
     traducion=request.form.get("txttraduc")
     palabra=request.form.get("txtPalabra")
+    palabra=str(palabra).lower()
     respuesta = " "
     r=open('traducciones.txt','r')
     if palabra != None:
         words=r.readlines()
         if traducion == 'i':
            for n in range(0,len(words)):
-                if palabra in words[n]:
-                    respuesta=words[n+1]
-                    break
+                palabra2=words[n]
+                if n == len(words)-1:
+                    if palabra == palabra2:
+                        respuesta=words[n+1]
+                        break
+                    else:
+                        respuesta="No hay traduccion"
                 else:
-                    respuesta="No hay traduccion"
+                    if palabra == palabra2[:-1]:
+                        respuesta=words[n+1]
+                        break
+                    else:
+                        respuesta="No hay traduccion"
         else:
             for n in range(0,len(words)):
-                if palabra in words[n]:
-                    respuesta=words[n-1]
-                    break
+                palabra2=words[n]
+                if n == len(words)-1:
+                    if palabra == palabra2:
+                        respuesta=words[n-1]
+                        break
+                    else:
+                        respuesta="No hay traduccion"
                 else:
-                    respuesta="No hay traduccion"
+                    if palabra == palabra2[:-1]:
+                        respuesta=words[n-1]
+                        break
+                    else:
+                        respuesta="No hay traduccion"
+
 
     return render_template("traductor.html",form=traduc,respuesta=respuesta,palabra=palabra)
 
