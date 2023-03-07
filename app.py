@@ -5,6 +5,7 @@ from flask_wtf.csrf import CSRFProtect
 from collections import Counter
 from flask import make_response
 from flask import flash
+import json
 
 
 
@@ -36,7 +37,7 @@ def Alumnos():
 
 
 
-@app.route("/", methods=['GET','POST'])
+@app.route("/cajas", methods=['GET','POST'])
 def cajasDinamicas():
     reg_alum=forms.UserForm(request.form)
     if request.method == 'POST':
@@ -145,6 +146,85 @@ def cookie():
         response.set_cookie('datos_usuario',datos)
         flash(success_message)
     return response
+
+@app.route("/", methods=['GET','POST'])
+def resistencias():
+    traduc=forms.TraductForm(request.form)
+    valor=""
+    resultadoma=""
+    resultadomi=""
+    banda1=""
+    banda2=""
+    banda3=""
+    banda4=""
+    bandas=[]
+    colores=""
+    resultado=""
+    if request.method == 'POST':
+        banda1=request.form.get("color1")
+        banda2=request.form.get("color2")
+        banda3=request.form.get("color3")
+        banda4=request.form.get("color4")
+
+        valores = {'negro': 0, 'cafe': 1, 'rojo': 2, 'naranja': 3, 'amarillo': 4,
+               'verde': 5, 'azul': 6, 'violeta': 7, 'gris': 8, 'blanco': 9}
+        multiplicadores = {'negro': 1, 'cafe': 10, 'rojo': 100, 'naranja': 1000,
+                       'amarillo': 10000, 'verde': 100000, 'azul': 1000000,
+                       'violeta': 10000000, 'gris': 100000000, 'blanco': 1000000000}
+        tolerancias = {'oro': .05, 'plata': .10}
+    
+        bandas=[banda1,banda2,banda3,banda4]
+
+        valor=str(valores[bandas[0]])+str(valores[bandas[1]])
+        resultado=int(valor)*multiplicadores[bandas[2]]
+        tolerancia=resultado*tolerancias[bandas[3]]
+        resultadoma=resultado+tolerancia
+        resultadomi=resultado-tolerancia
+
+        colores = {
+    "negro": "black",
+    "cafe": "brown",
+    "rojo": "red",
+    "naranja": "orange",
+    "amarillo": "yellow",
+    "verde": "green",
+    "azul": "blue",
+    "violeta": "purple",
+    "gris": "gray",
+    "blanco": "white",
+    "oro": "gold",
+    "plata": "silver"
+}
+    with open("valores.json", 'r') as f:
+        data = json.load(f)
+
+    if isinstance(data, list):
+        data.append({'valor': str(resultado), 
+            'min': str(resultadomi), 
+            'max': str(resultadoma), 
+            'color1': banda1, 
+            'color2': banda2, 
+            'color3': banda3})
+    else:
+        data = [{'valor': str(resultado), 
+            'min': str(resultadomi), 
+            'max': str(resultadoma), 
+            'color1': banda1, 
+            'color2': banda2, 
+            'color3': banda3}]
+
+    with open("valores.json", 'w') as f:
+        json.dump(data, f)
+        
+    return render_template("resistencias.html",data=data,colores=colores,resultadoma=resultadoma,resultadomi=resultadomi,resultado=resultado,form=traduc,bandas=bandas,banda1=banda1,banda2=banda2,banda3=banda3,banda4=banda4)
+
+@app.route("/resultados", methods=['GET','POST'])
+def resultados():
+    reg_alum=forms.UserForm(request.form)
+    with open("valores.json", 'r') as f:
+        data = json.load(f)
+
+    return render_template("resultados.html",data=data,form=reg_alum)
 
 if __name__=="__main__":
     csrf.init_app(app)

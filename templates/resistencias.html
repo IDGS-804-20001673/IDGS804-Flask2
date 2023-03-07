@@ -1,0 +1,91 @@
+{% extends "layout.html"%}
+
+{% block content %}
+<div class="col-xs-6">
+    {%from "_macros.html" import render_Field %}
+    <form action="/" method="post" novalidate>
+        {{form.csrf_token}}
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+        <div class="row control-group">
+            <label>Banda 1</label>
+            <select name="color1">
+                <option value="negro">Negro</option>
+                <option value="cafe">Cafe</option>
+                <option value="rojo">Rojo</option>
+                <option value="naranja">Naranja</option>
+                <option value="amarillo">Amarillo</option>
+                <option value=verde>Verde</option>
+                <option value=azul>Azul</option>
+                <option value=violeta>Violeta</option>
+                <option value="gris">Gris</option>
+                <option value="blanco">Blanco</option>
+            </select>
+            <label>Banda 2</label>
+            <select name="color2">
+                <option value="negro">Negro</option>
+                <option value="cafe">Cafe</option>
+                <option value="rojo">Rojo</option>
+                <option value="naranja">Naranja</option>
+                <option value="amarillo">Amarillo</option>
+                <option value=verde>Verde</option>
+                <option value=azul>Azul</option>
+                <option value=violeta>Violeta</option>
+                <option value="gris">Gris</option>
+                <option value="blanco">Blanco</option>
+            </select>
+            <label>Banda 3</label>
+            <select name="color3">
+                <option value="negro">Negro</option>
+                <option value="cafe">Cafe</option>
+                <option value="rojo">Rojo</option>
+                <option value="naranja">Naranja</option>
+                <option value="amarillo">Amarillo</option>
+                <option value=verde>Verde</option>
+                <option value=azul>Azul</option>
+                <option value=violeta>Violeta</option>
+                <option value="gris">Gris</option>
+                <option value="blanco">Blanco</option>
+            </select>
+            <label>Tolerancia ultima banda</label>
+            <select name="color4">
+                <option value="oro">Oro</option>
+                <option value="plata">Plata</option>
+            </select>
+        </div>
+        <input type="submit" id="al" name="al" value="Calcular">
+    </form>
+    <div>
+        <table style="border-collapse: collapse; border: 1px solid black;">
+            <tr>
+              <th style="border: 1px solid black;">Banda 1</th>
+              <th style="border: 1px solid black;">Banda 2</th>
+              <th style="border: 1px solid black;">Banda 3</th>
+              <th style="border: 1px solid black;">Tolerancia</th>
+              <th style="border: 1px solid black;">Valor</th>
+              <th style="border: 1px solid black;">Valor Maximo</th>
+              <th style="border: 1px solid black;">Valor Minimo</th>
+
+            </tr>
+            <tbody id="continer">
+                {% for banda in bandas %}
+                <td style="background-color: {{colores[banda]}}; border: 1px solid black;">{{banda}}</td>
+                {% endfor %}
+                <td style="border: 1px solid black;">{{resultado}}</td>
+                <td style="border: 1px solid black;">{{resultadoma}}</td>
+                <td style="border: 1px solid black;">{{resultadomi}}</td>
+            </tbody>
+
+          </table>
+        </form>
+            <form action="/resultados" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="row control-group">
+                    <input type="submit" value="ver todo">
+                </div>
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock content %}
